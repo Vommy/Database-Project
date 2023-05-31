@@ -1,0 +1,14 @@
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\bin\Debug\Deliverable2.exe.config
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\bin\Debug\Deliverable2.exe
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\bin\Debug\Deliverable2.pdb
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.csproj.AssemblyReference.cache
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.csproj.SuggestedBindingRedirects.cache
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.Properties.Resources.resources
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.csproj.GenerateResource.cache
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.csproj.CoreCompileInputs.cache
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.exe
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.pdb
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.ClassSearch.resources
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.CreateClass.resources
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.RecordStudent.resources
+H:\COMPX223\Deliverable2\PrepareAware Project\Deliverable2\Deliverable2\obj\Debug\Deliverable2.ViewStats.resources
