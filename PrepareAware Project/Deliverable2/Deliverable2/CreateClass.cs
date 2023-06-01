@@ -17,6 +17,10 @@ namespace Deliverable2
         public CreateClass()
         {
             InitializeComponent();
+            dateTimePickerStartTime.Format = DateTimePickerFormat.Time;
+            dateTimePickerStartTime.ShowUpDown = true;
+            dateTimePickerStartTime.Format = DateTimePickerFormat.Time;
+            dateTimePickerEndTime.ShowUpDown = true;
         }
 
         /**
@@ -47,6 +51,16 @@ namespace Deliverable2
         private void viewStatisticsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormPage.showViewStatsForm(this);
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CreateClass_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

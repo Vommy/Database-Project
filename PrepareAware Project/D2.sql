@@ -64,7 +64,28 @@ CREATE TABLE Qualified (
     FOREIGN KEY (CourseID) REFERENCES Course (CourseID)
 );
 
+GO
+CREATE PROCEDURE getAllClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail) ORDER BY Class.CourseID
+EXEC getAllClasses
+DROP PROCEDURE getAllClasses 
 
+GO
+CREATE PROCEDURE getUpcomingClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail where startTime > GETDATE()) ORDER BY (startTime)
+EXEC getUpcomingClasses
+DROP PROCEDURE getUpcomingClasses
+GO
+
+GO
+CREATE PROCEDURE getCurrentClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail where startTime = GETDATE()) ORDER BY (startTime)
+EXEC getCurrentClasses
+DROP PROCEDURE getCurrentClasses
+GO
+
+GO
+CREATE PROCEDURE getPastClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail where startTime < GETDATE()) ORDER BY (startTime)
+EXEC getPastClasses
+DROP PROCEDURE getPastClasses
+GO
 
 INSERT INTO Customer (email, fname, sname, phone) VALUES ('josh.baker@example.com', 'Josh', 'Baker', '858-546-1256')
 INSERT INTO Customer (email, fname, sname, phone) VALUES ('lisa.miller@example.com', 'Lisa', 'Miller', '415-789-4563')

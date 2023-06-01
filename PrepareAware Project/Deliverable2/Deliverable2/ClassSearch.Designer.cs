@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listBoxClassResults = new System.Windows.Forms.ListBox();
             this.comboBoxClassFilter = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,13 +40,15 @@
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // listBox1
+            // listBoxClassResults
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 57);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(776, 381);
-            this.listBox1.TabIndex = 0;
+            this.listBoxClassResults.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBoxClassResults.FormattingEnabled = true;
+            this.listBoxClassResults.ItemHeight = 16;
+            this.listBoxClassResults.Location = new System.Drawing.Point(12, 57);
+            this.listBoxClassResults.Name = "listBoxClassResults";
+            this.listBoxClassResults.Size = new System.Drawing.Size(776, 372);
+            this.listBoxClassResults.TabIndex = 0;
             // 
             // comboBoxClassFilter
             // 
@@ -57,6 +59,7 @@
             this.comboBoxClassFilter.Name = "comboBoxClassFilter";
             this.comboBoxClassFilter.Size = new System.Drawing.Size(234, 26);
             this.comboBoxClassFilter.TabIndex = 1;
+            this.comboBoxClassFilter.SelectedIndexChanged += new System.EventHandler(this.comboBoxClassFilter_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -135,7 +138,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBoxClassFilter);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.listBoxClassResults);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ClassSearch";
@@ -150,7 +153,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listBoxClassResults;
         private System.Windows.Forms.ComboBox comboBoxClassFilter;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;

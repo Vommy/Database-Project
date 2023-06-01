@@ -18,6 +18,23 @@ namespace Deliverable2
         public static SqlCommand cmd = new SqlCommand();
         public static SqlDataReader read;
 
+        public static void executeStoredProc(string storedProc)
+        {
+            try
+            {
+                con.Close();
+                cmd = new SqlCommand(storedProc);
+                cmd.Connection = con;
+                con.Open();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                read = cmd.ExecuteReader();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         /// <summary>
         /// This excecutres the query, used mainly for 
         /// insert/delete/update statements etc. where we don't need
