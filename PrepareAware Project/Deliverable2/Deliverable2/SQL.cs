@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,7 +21,7 @@ namespace Deliverable2
         public static SqlCommand cmd = new SqlCommand();
         public static SqlDataReader read;
 
-        public static void executeStoredProc(string storedProc)
+        public static void ExecuteStoredProc(string storedProc)
         {
             try
             {
@@ -34,28 +37,54 @@ namespace Deliverable2
                 Console.WriteLine(ex.Message);
             }
         }
-
-        /// <summary>
-        /// This excecutres the query, used mainly for 
-        /// insert/delete/update statements etc. where we don't need
-        /// to read from what we are doing.
-        /// </summary>
-        /// <param name="query"></param>
-        public static void executeQuery(string query)
+        /**
+         * <summary>
+         * Executes the specified stored procedure with parameters in the database.
+         * </summary>
+         * <param name="storedProc" >The name of the stored procedure in the database.</param>
+         * <param name="paramTypeDict"> A dictionary of parameter keys and SqlDbType value pairs. 
+         * The strings represent the parameters (e.g. @courseID),
+         * and the SqlDbType values represent what type the parameter is.</param>
+         * <param name="arguments">The values that should be used as arguments to the parameters.</param>
+         * <param name="sizes">An array holding the size of the parameter. Useful if the type has a size (like a char). 
+         * If the parameter doesn't have a size, the corresponding size should be -1.</param>
+         */
+        public static void ExecuteStoredProc(string storedProc, Dictionary<string, SqlDbType> paramTypeDict, string[] arguments, int[] sizes)
         {
-            //try catch to catch any unforseen errors gracefully
             try
             {
                 con.Close();
+                cmd = new SqlCommand(storedProc);
                 cmd.Connection = con;
                 con.Open();
-                cmd.CommandText = query;
-                cmd.ExecuteNonQuery();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                int count = 0;
+                foreach (string key in paramTypeDict.Keys)
+                {
+                    string pattern = @"(@[A-Za-z]+)(_?[A-Z])*";
+                    Regex regex = new Regex(pattern);
+                    if (regex.IsMatch(key))
+                    {
+                        if (sizes[count] == -1)
+                        {
+                            cmd.Parameters.Add(key, paramTypeDict[key]).Value = arguments[count];
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(key, paramTypeDict[key], sizes[count]).Value = arguments[count];
+                        }
+                        count++;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Regex is not working as expected");
+                    }
+                }
+                read = cmd.ExecuteReader();
             }
             catch (Exception ex)
             {
-                //put a message box in here if you are recieving errors and see if you can find out why?
-                return;
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -78,49 +107,6 @@ namespace Deliverable2
             {
                 //put a message box in here if you are recieving errors and see if you can find out why?
                 return;
-            }
-        }
-
-        /// <summary>
-        /// Prints out the ID  based on the query givin into a combo box
-        /// </summary>
-        /// <param name="comboBox">A control to be used to write existing names to</param>
-        /// <param name="query">An SQL query to generate from</param>
-        public static void editComboBoxItems(ComboBox comboBox, string query)
-        {
-            bool clear = true;
-
-            //gets data from database
-            SQL.selectQuery(query);
-            //Check that there is something to write brah
-            if (SQL.read.HasRows)
-            {
-                while (SQL.read.Read())
-                {
-                    if (comboBox.Text == SQL.read[0].ToString())
-                    {
-                        clear = false;
-                    }
-                }
-            }
-
-            //gets data from database
-            SQL.selectQuery(query);
-            //if nothing in the comboBox then we need to clear it
-            if (clear)
-            {
-                comboBox.Text = "";
-                comboBox.Items.Clear();
-
-            }
-
-            // this will print whatever is in the database to the combobox
-            if (SQL.read.HasRows)
-            {
-                while (SQL.read.Read())
-                {
-                    comboBox.Items.Add(SQL.read[0].ToString());
-                }
             }
         }
     }

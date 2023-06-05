@@ -1,3 +1,7 @@
+/*
+VEREN VILLEGAS
+1574646
+*/
 use vv44_D2
 
 DROP TABLE Teaches
@@ -64,29 +68,158 @@ CREATE TABLE Qualified (
     FOREIGN KEY (CourseID) REFERENCES Course (CourseID)
 );
 
+/*
+Gets all the information about a class for all classes.
+*/
 GO
-CREATE PROCEDURE getAllClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail) ORDER BY Class.CourseID
+CREATE PROCEDURE getAllClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname, Class.ClassID from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail) ORDER BY startTime
+GO
+
+/*
+Gets the class and course ID of all classes.
+*/
+GO
+CREATE PROCEDURE getClassIDs as(SELECT Class.CourseID, Class.ClassID from Class) ORDER BY CourseID
+GO
+
+/*
+Gets all classes that have a start date later than the current system date.
+*/
+GO
+CREATE PROCEDURE getUpcomingClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname, Class.ClassID from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail where startTime > GETDATE()) ORDER BY (startTime)
+GO
+
+/*
+Gets all classes that have a start date earlier than the current system date but have an end date later than the current system date.
+*/
+GO
+CREATE PROCEDURE getCurrentClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname, Class.ClassID from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail where (startTime <= GETDATE() AND endTime >= GETDATE())) ORDER BY (startTime)
+GO
+
+/*
+Gets all classes that have an enddate later than the current system date. 
+*/
+GO
+CREATE PROCEDURE getPastClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname, Class.ClassID from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail where endTime < GETDATE()) ORDER BY (startTime)
+GO
+
+/*
+Returns all items from the customers table.
+RENAME TO SOMETHING BETTER.
+*/
+GO
+CREATE PROCEDURE findStudentEmail as
+(SELECT * from Customer) order by email
+GO
+
+GO
+CREATE PROCEDURE recordNewMark (@sEmail VARCHAR(255) = null, @qClassID int = -1, @mark decimal = -1) as
+if @sEmail IS NOT NULL AND @qClassID != -1 AND @mark != -1 BEGIN
+	DECLARE @temp VARCHAR(255)
+	DECLARE @classID int 
+	SELECT @temp = cEmail from Attends where cEmail = @sEmail
+	SELECT @classID = ClassID from Attends where ClassID = @qClassID
+	--There is already a record for this student in this class. Update the mark.
+	if @temp IS NOT null AND @classID IS NOT NULL
+	BEGIN
+		update Attends set mark =  @mark where cEmail = @sEmail AND ClassID = @qClassID
+	END
+	--The student does not have a record for this class. Make a new record.
+	ELSE BEGIN
+		INSERT into Attends(cEmail, ClassID, mark) values (@sEmail, @qClassID, @mark)
+	END
+END
+GO
+
+select * from Attends
+
+/*
+<summary>
+Adds new students into the database. 
+</summary>
+*/
+GO
+CREATE PROCEDURE addNewStudent (@sEmail VARCHAR(255) = null, @sFname VARCHAR(50) = null, @sLname VARCHAR(50) = null, @sPhoneNumber VARCHAR(20) = null) as
+if @sEmail IS NOT null AND @sFname IS NOT null AND @sLname IS NOT null BEGIN
+		INSERT into Customer (email, fname, sname, phone) values (@sEmail, @sFname, @sLname, @sPhoneNumber)
+END
+GO
+
+/*
+Refactor for error checking
+*/
+GO
+CREATE PROCEDURE getAllQualifiedInstructorNames (@courseID VARCHAR(5)) as (SELECT fname, sname from (Instructor join Qualified on Instructor.email = Qualified.iEmail) where Qualified.CourseID = @courseID) ORDER BY (fname)
+EXEC getAllQualifiedInstructorNames 'FA101'
+GO
+
+/*
+<summary>
+Finds an instructor's email based of their first and last name.
+@return iemail The instructor's email
+</summary>
+Refactor for error checking
+*/
+GO
+CREATE PROCEDURE findInstructorEmail (@ifname VARCHAR(50), @iLname VARCHAR(50), @iEmail VARCHAR(50) OUT) as 
+(SELECT @iEmail = email from Instructor where fname = @ifname AND sname = @iLname)
+GO
+
+/*
+<summary>
+Finds a class's ID based on the course ID, class location, start time and end time. 
+@return classID The class's ID
+</summary>
+*/
+GO
+CREATE PROCEDURE findClassID ( @classID INT OUT) as
+SELECT @classID = @@IDENTITY
+GO
+
+/*
+<summary>
+Inserts a new class into the class table.
+Inserts a new teaches relationship into the Teaches table.
+</summary>
+Refactor for error checking
+*/
+GO
+CREATE PROCEDURE createNewClass (@courseID VARCHAR(5), @courseLocation VARCHAR(50), @courseStart DATETIME, @courseEnd DATETIME, @iFname VARCHAR(50), @iLname VARCHAR(50)) as 
+BEGIN
+INSERT INTO Class (location, startTime, endTime, CourseID) values  (@courseLocation, @courseStart, @courseEnd, @courseID)
+DECLARE @email VARCHAR(50)
+DECLARE @classID INT
+EXEC findInstructorEmail @iFname, @iLname, @email OUTPUT
+EXEC findClassID @classID OUTPUT
+INSERT INTO TEACHES(ClassID, iEmail) values (@classID , @email)
+END
+GO
+
+EXEC createNewClass 'FA101', 'Test Room', '05/06/2023', '06/06/2023', 'Christina', 'Yang'
+
 EXEC getAllClasses
-DROP PROCEDURE getAllClasses 
-
-GO
-CREATE PROCEDURE getUpcomingClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail where startTime > GETDATE()) ORDER BY (startTime)
 EXEC getUpcomingClasses
-DROP PROCEDURE getUpcomingClasses
-GO
-
-GO
-CREATE PROCEDURE getCurrentClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail where startTime = GETDATE()) ORDER BY (startTime)
 EXEC getCurrentClasses
-DROP PROCEDURE getCurrentClasses
-GO
-
-GO
-CREATE PROCEDURE getPastClasses as (SELECT Class.CourseID, location, startTime, endTime, fname, sname from (Class join Teaches on Class.ClassID = Teaches.ClassID) join Instructor on Instructor.email = Teaches.iEmail where startTime < GETDATE()) ORDER BY (startTime)
 EXEC getPastClasses
-DROP PROCEDURE getPastClasses
-GO
+EXEC findStudentEmail 
 
+DROP PROCEDURE getAllClasses
+DROP PROCEDURE getUpcomingClasses
+DROP PROCEDURE getCurrentClasses
+DROP PROCEDURE getPastClasses
+DROP PROCEDURE getAllQualifiedInstructorNames
+DROP PROCEDURE createNewClass
+DROP PROCEDURE findClassID
+DROP PROCEDURE findInstructorEmail
+DROP PROCEDURE findStudentEmail
+DROP PROCEDURE addNewStudent
+DROP PROCEDURE getClassIDs
+DROP PROCEDURE recordNewMark
+
+select * from Customer
+/*
+Insert statements
+*/
 INSERT INTO Customer (email, fname, sname, phone) VALUES ('josh.baker@example.com', 'Josh', 'Baker', '858-546-1256')
 INSERT INTO Customer (email, fname, sname, phone) VALUES ('lisa.miller@example.com', 'Lisa', 'Miller', '415-789-4563')
 INSERT INTO Customer (email, fname, sname, phone) VALUES ('kevin.morgan@example.com', 'Kevin', 'Morgan', '312-654-9874')
@@ -134,6 +267,7 @@ INSERT INTO Course (CourseID, name, cost, certDuration) VALUES ('FA108', 'Workpl
 INSERT INTO Course (CourseID, name, cost, certDuration) VALUES ('FA109', 'Industrial Safety', 399.99, 6);
 INSERT INTO Course (CourseID, name, cost, certDuration) VALUES ('FA110', 'First Aid for Burn Victims', 99.99, 12);
 
+INSERT INTO Class (location, startTime, endTime, CourseID) VALUES ('Room I', '2024-07-01 19:00:00', '2025-04-01 23:59:59', 'FA101')
 INSERT INTO Class (location, startTime, endTime, CourseID) VALUES ('Room I', '2023-05-23 14:00:00', '2023-05-23 17:00:00', 'FA101')
 INSERT INTO Class (location, startTime, endTime, CourseID) VALUES ('Room O', '2023-05-23 13:00:00', '2023-05-23 16:00:00', 'FA104')
 INSERT INTO Class (location, startTime, endTime, CourseID) VALUES ('Room U', '2023-05-23 13:00:00', '2023-05-23 17:00:00', 'FA106')

@@ -17,13 +17,20 @@ namespace Deliverable2
     {
         const int LARGE_PAD_SIZE = 28;
         const int SMALL_PAD_SIZE = 10;
+        private Dictionary<String, String> storedProc = new Dictionary<string, string>();
 
         public ClassSearch()
         {
             InitializeComponent();
-            comboBoxClassFilter.Items.Add("Upcoming Classes");
-            comboBoxClassFilter.Items.Add("Current Classes");
-            comboBoxClassFilter.Items.Add("Past Classes");
+            //Initializing dictionary.
+            storedProc.Add("All Classes", "getAllClasses");
+            storedProc.Add("Upcoming Classes", "getUpcomingClasses");
+            storedProc.Add("Current Classes", "getCurrentClasses");
+            storedProc.Add("Past Classes", "getPastClasses");
+            foreach (String key in storedProc.Keys)
+            {
+                comboBoxClassFilter.Items.Add(key);
+            }
             displayClassResults("getAllClasses");
         }
 
@@ -36,40 +43,48 @@ namespace Deliverable2
         private void displayClassResults(string storedProc)
         {
             listBoxClassResults.Items.Clear();
-            SQL.executeStoredProc(storedProc);
-            if (SQL.read.HasRows)
+            SQL.ExecuteStoredProc(storedProc);
+            try
             {
-                listBoxClassResults.Items.Add("Class Results:\n ");
-                try
+                if (SQL.read.HasRows)
                 {
+                    listBoxClassResults.Items.Add("Class Results:\n ");
+                    listBoxClassResults.Items.Add("ID".PadRight(SMALL_PAD_SIZE) + "Class".PadRight(SMALL_PAD_SIZE) + "Location".PadRight(SMALL_PAD_SIZE)
+                        + "Start Time".PadRight(LARGE_PAD_SIZE) + "End Time".PadRight(LARGE_PAD_SIZE) + "Instructor Name");
                     string courseID = "";
                     string courseLocation = "";
                     string courseStartTime = "";
                     string courseEndTime = "";
                     string instructorFname = "";
                     string instructorLname = "";
+                    string classID = "";
 
                     while (SQL.read.Read())
                     {
-                        if (SQL.read.FieldCount == 6)
-                        courseID = SQL.read[0].ToString();
-                        courseLocation = SQL.read[1].ToString();
-                        courseStartTime = SQL.read[2].ToString();
-                        courseEndTime = SQL.read[3].ToString();
-                        instructorFname = SQL.read[4].ToString();
-                        instructorLname = SQL.read[5].ToString();
-                        listBoxClassResults.Items.Add(courseID.PadRight(SMALL_PAD_SIZE) + courseLocation.PadRight(SMALL_PAD_SIZE) + courseStartTime.PadRight(LARGE_PAD_SIZE) + courseEndTime.PadRight(LARGE_PAD_SIZE) + instructorFname + " " + instructorLname);
+                        if (SQL.read.FieldCount == 7)
+                        {
+                            courseID = SQL.read[0].ToString();
+                            courseLocation = SQL.read[1].ToString();
+                            courseStartTime = SQL.read[2].ToString();
+                            courseEndTime = SQL.read[3].ToString();
+                            instructorFname = SQL.read[4].ToString();
+                            instructorLname = SQL.read[5].ToString();
+                            classID = SQL.read[6].ToString();
+                            listBoxClassResults.Items.Add(courseID.PadRight(SMALL_PAD_SIZE) + classID.PadRight(SMALL_PAD_SIZE) + courseLocation.PadRight(SMALL_PAD_SIZE)
+                                + courseStartTime.PadRight(LARGE_PAD_SIZE) + courseEndTime.PadRight(LARGE_PAD_SIZE) + instructorFname + " " + instructorLname);
+                        }
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine("ERROR Occurred in displayClassResults():\n " + ex.Message);
+                    listBoxClassResults.Items.Add("Class Results:\n No Results Found...");
                 }
             }
-            else
+            catch(Exception ex)
             {
-                listBoxClassResults.Items.Add("Class Results:\n No Results Found...");
+                Console.WriteLine(ex.Message);
             }
+
         }
 
         /**
@@ -102,19 +117,21 @@ namespace Deliverable2
             FormPage.showViewStatsForm(this);
         }
 
+        /**
+         * <summary>
+         * Calls the a stored procedure based on the value selected in the combo box.
+         * </summary>
+         */
         private void comboBoxClassFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(comboBoxClassFilter.SelectedIndex == 0)
+            if (storedProc.ContainsKey(comboBoxClassFilter.Text))
             {
-                displayClassResults("getUpcomingClasses");
+                displayClassResults(storedProc[comboBoxClassFilter.Text]);
             }
-            else if(comboBoxClassFilter.SelectedIndex == 1)
+            else
             {
-                displayClassResults("getCurrentClasses");
-            }
-            else if(comboBoxClassFilter.SelectedIndex == 2)
-            {
-                displayClassResults("getPastClasses");
+                listBoxClassResults.Items.Clear();
+                MessageBox.Show("Error 400: Invalid Value (Does the stored procedure exist?)");
             }
         }
     }

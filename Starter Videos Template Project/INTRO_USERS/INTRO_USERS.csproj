@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B6F95593-85AA-47FA-9DC5-2612908B6EE5}</ProjectGuid>
+    <ProjectGuid>{F795D350-5A36-4B60-82EE-54BBDD623D81}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Deliverable2</RootNamespace>
-    <AssemblyName>Deliverable2</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>INTRO_USERS</RootNamespace>
+    <AssemblyName>INTRO_USERS</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,40 +47,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateClass.cs">
+    <Compile Include="BrowsePage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CreateClass.Designer.cs">
-      <DependentUpon>CreateClass.cs</DependentUpon>
+    <Compile Include="BrowsePage.Designer.cs">
+      <DependentUpon>BrowsePage.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClassSearch.cs">
+    <Compile Include="LoginPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ClassSearch.Designer.cs">
-      <DependentUpon>ClassSearch.cs</DependentUpon>
+    <Compile Include="LoginPage.Designer.cs">
+      <DependentUpon>LoginPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RecordStudent.cs">
+    <Compile Include="RegisterPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RecordStudent.Designer.cs">
-      <DependentUpon>RecordStudent.cs</DependentUpon>
+    <Compile Include="RegisterPage.Designer.cs">
+      <DependentUpon>RegisterPage.cs</DependentUpon>
     </Compile>
     <Compile Include="SQL.cs" />
-    <Compile Include="Student.cs" />
-    <Compile Include="ViewStats.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ViewStats.Designer.cs">
-      <DependentUpon>ViewStats.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="ClassSearch.resx">
-      <DependentUpon>ClassSearch.cs</DependentUpon>
+    <EmbeddedResource Include="BrowsePage.resx">
+      <DependentUpon>BrowsePage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CreateClass.resx">
-      <DependentUpon>CreateClass.cs</DependentUpon>
+    <EmbeddedResource Include="LoginPage.resx">
+      <DependentUpon>LoginPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -89,12 +82,10 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="RecordStudent.resx">
-      <DependentUpon>RecordStudent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ViewStats.resx">
-      <DependentUpon>ViewStats.cs</DependentUpon>
+    <EmbeddedResource Include="RegisterPage.resx">
+      <DependentUpon>RegisterPage.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -110,4 +101,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

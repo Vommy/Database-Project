@@ -35,6 +35,7 @@
             this.viewStatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonCreateClass = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -45,7 +46,6 @@
             this.textBoxID = new System.Windows.Forms.TextBox();
             this.dateTimePickerStartTime = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerEndTime = new System.Windows.Forms.DateTimePicker();
-            this.buttonCreateClass = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -57,7 +57,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(934, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -103,7 +103,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Courier New", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(247, 24);
+            this.label1.Location = new System.Drawing.Point(187, 24);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(462, 31);
@@ -123,14 +123,26 @@
             this.groupBox1.Controls.Add(this.textBoxID);
             this.groupBox1.Controls.Add(this.dateTimePickerStartTime);
             this.groupBox1.Controls.Add(this.dateTimePickerEndTime);
-            this.groupBox1.Location = new System.Drawing.Point(200, 74);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Location = new System.Drawing.Point(128, 72);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(556, 351);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Class Form";
+            // 
+            // buttonCreateClass
+            // 
+            this.buttonCreateClass.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonCreateClass.Location = new System.Drawing.Point(193, 275);
+            this.buttonCreateClass.Name = "buttonCreateClass";
+            this.buttonCreateClass.Size = new System.Drawing.Size(198, 51);
+            this.buttonCreateClass.TabIndex = 5;
+            this.buttonCreateClass.Text = "Create Class";
+            this.buttonCreateClass.UseMnemonic = false;
+            this.buttonCreateClass.UseVisualStyleBackColor = true;
+            this.buttonCreateClass.Click += new System.EventHandler(this.buttonCreateClass_Click);
             // 
             // label6
             // 
@@ -175,7 +187,6 @@
             this.label3.Size = new System.Drawing.Size(186, 21);
             this.label3.TabIndex = 6;
             this.label3.Text = "Course Location:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label2
             // 
@@ -190,10 +201,11 @@
             // 
             // comboBoxInstructors
             // 
+            this.comboBoxInstructors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxInstructors.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxInstructors.FormattingEnabled = true;
             this.comboBoxInstructors.Location = new System.Drawing.Point(256, 206);
-            this.comboBoxInstructors.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxInstructors.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxInstructors.Name = "comboBoxInstructors";
             this.comboBoxInstructors.Size = new System.Drawing.Size(274, 24);
             this.comboBoxInstructors.TabIndex = 4;
@@ -202,63 +214,59 @@
             // 
             this.textBoxLocation.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxLocation.Location = new System.Drawing.Point(256, 82);
-            this.textBoxLocation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxLocation.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxLocation.Name = "textBoxLocation";
             this.textBoxLocation.Size = new System.Drawing.Size(274, 22);
-            this.textBoxLocation.TabIndex = 3;
+            this.textBoxLocation.TabIndex = 1;
             // 
             // textBoxID
             // 
             this.textBoxID.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxID.Location = new System.Drawing.Point(256, 40);
-            this.textBoxID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxID.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxID.Name = "textBoxID";
             this.textBoxID.Size = new System.Drawing.Size(274, 22);
-            this.textBoxID.TabIndex = 2;
+            this.textBoxID.TabIndex = 0;
+            this.textBoxID.TextChanged += new System.EventHandler(this.textBoxID_TextChanged);
             // 
             // dateTimePickerStartTime
             // 
+            this.dateTimePickerStartTime.CustomFormat = "dd/MM/yyyy - hh:mm";
+            this.dateTimePickerStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerStartTime.Location = new System.Drawing.Point(256, 121);
-            this.dateTimePickerStartTime.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePickerStartTime.Margin = new System.Windows.Forms.Padding(4);
+            this.dateTimePickerStartTime.MinDate = new System.DateTime(2023, 6, 1, 0, 0, 0, 0);
             this.dateTimePickerStartTime.Name = "dateTimePickerStartTime";
             this.dateTimePickerStartTime.Size = new System.Drawing.Size(274, 20);
-            this.dateTimePickerStartTime.TabIndex = 1;
+            this.dateTimePickerStartTime.TabIndex = 2;
+            this.dateTimePickerStartTime.ValueChanged += new System.EventHandler(this.dateTimePickerStartTime_ValueChanged);
             // 
             // dateTimePickerEndTime
             // 
+            this.dateTimePickerEndTime.CustomFormat = "dd/MM/yyyy - hh:mm";
             this.dateTimePickerEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerEndTime.Location = new System.Drawing.Point(256, 162);
-            this.dateTimePickerEndTime.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePickerEndTime.Margin = new System.Windows.Forms.Padding(4);
+            this.dateTimePickerEndTime.MinDate = new System.DateTime(2023, 6, 1, 0, 0, 0, 0);
             this.dateTimePickerEndTime.Name = "dateTimePickerEndTime";
             this.dateTimePickerEndTime.Size = new System.Drawing.Size(274, 20);
-            this.dateTimePickerEndTime.TabIndex = 0;
-            // 
-            // buttonCreateClass
-            // 
-            this.buttonCreateClass.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCreateClass.Location = new System.Drawing.Point(193, 275);
-            this.buttonCreateClass.Name = "buttonCreateClass";
-            this.buttonCreateClass.Size = new System.Drawing.Size(198, 51);
-            this.buttonCreateClass.TabIndex = 10;
-            this.buttonCreateClass.Text = "Create Class";
-            this.buttonCreateClass.UseMnemonic = false;
-            this.buttonCreateClass.UseVisualStyleBackColor = true;
+            this.dateTimePickerEndTime.TabIndex = 3;
+            this.dateTimePickerEndTime.ValueChanged += new System.EventHandler(this.dateTimePickerEndTime_ValueChanged);
             // 
             // CreateClass
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(934, 472);
+            this.ClientSize = new System.Drawing.Size(800, 451);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CreateClass";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CreateClass";
-            this.Load += new System.EventHandler(this.CreateClass_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
