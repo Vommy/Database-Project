@@ -2,7 +2,6 @@
 VEREN VILLEGAS
 1574646
 */
-use vv44_D2
 
 DROP TABLE Teaches
 DROP TABLE Qualified
