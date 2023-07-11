@@ -1,5 +1,3 @@
-use cpilbrow_D2
-
 DROP TABLE Teaches
 DROP TABLE Qualified
 DROP TABLE Attends
